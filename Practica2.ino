@@ -38,5 +38,4 @@ void alarma() {
 
   digitalWrite(pinLed, LOW);
 
-
 }
