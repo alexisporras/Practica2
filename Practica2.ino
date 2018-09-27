@@ -1,52 +1,42 @@
-//Sensor de movimiento para alarma con sonido
+/*
+ Programa: Alarma
+ Objetivo: Implemenatr una alarma para el acceso de puerta. Cuando la puerta se abra,
+           la alarma se debe activar
+           Para evitar gastos el consumo de energia debe ser minimo cuando no se abra la puerta,
+           mientras la alarma se active regrese al estado normal y una vez cerrada regrese al 
+           estado minimo de consumo de energia
+- Alexis Antonio Porras Lobato
+*/
 
-#define bocina 6 //Declaro bocina
-#define sensor 2 //Declaro sensor
-#define led 13 // Declaro led
+const int pinSensor = 2;
+const int pinLed = 13;
+const int pinBocina = 7;
 
-int mov = 0; //Declaro variable para almacenar movimiento detectado
 void setup() {
+  //configurar pin como entrada con resistencia pull-up interna
+  pinMode(pinSensor, INPUT_PULLUP);
+  pinMode(pinLed, OUTPUT);
+  pinMode(pinBocina, OUTPUT);
+
   Serial.begin(9600);
-  pinMode(bocina, OUTPUT); //Asigno variables con modo de entrada o salida
-  pinMode(sensor, INPUT);  //Asigno variables con modo de entrada o salida
-  pinMode(led, OUTPUT);    //Asigno variables con modo de entrada o salida
 }
 
 void loop() {
-  mov = digitalRead(sensor); //Igualacion de valor del pin con el de variable
-  delay(100); //Tiempo de espera
+  int value = digitalRead(pinSensor);
 
-  if (mov == HIGH) { //Condicional de movimiento
-    movimiento();
+  if (value == LOW) {
+    digitalWrite(pinLed, HIGH);
+
+    for (int contador = 0; contador <= 100; contador ++) {
+      tone(pinBocina, 8.18);
+      delay(pinBocina);
+    }
+    noTone(pinBocina);
+
+
   } else {
-    sinMovimiento();
+    digitalWrite(pinLed, LOW);
   }
-}
 
-void alarma() { //Secuencia de sonido
-  tone(bocina, 8.18);
-  delay(100);
-  tone(bocina, 9.72);
-  delay(100);
-  tone(bocina, 14.57);
-  delay(100);
-  noTone(bocina);
-  delay(100);
-}
-
-void movimiento() { //Secuencia de acciones si se detecta movimiento
-  digitalWrite(led, HIGH); //Encender led
-  Serial.print("Movimiento"); //Comprobar estado en consola
-  Serial.print("\n");
-  alarma(); //Iniciar secuencia de sonido
-  digitalWrite(led, LOW); //Apagar led
-  mov = LOW; //Rgresar estado de movimiento al original
-  delay(500); //Tiempo de espera
-}
-
-void sinMovimiento() { //Secuencia de acciones si no detecta movimiento
-  Serial.print("..."); //Comprobar estado en consola
-  Serial.print("\n");
-  digitalWrite(led, LOW); //Mantener led apagado
-  mov = LOW;
+  delay(500);
 }
