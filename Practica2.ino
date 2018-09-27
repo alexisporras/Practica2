@@ -11,19 +11,13 @@
 const int pinSensor = 2; 
 const int pinLed = 13;
 const int pinBocina = 6;
-<<<<<<< HEAD
 #define potenciometro A1
 int valorPotenciometro = 0;
-=======
->>>>>>> c9ef55f311464881962f890cd11d7037fa338e17
 
 void setup() {
   //configurar pin como entrada con resistencia pull-up interna
   pinMode(pinSensor, INPUT_PULLUP);
-<<<<<<< HEAD
   pinMode(potenciometro, INPUT_PULLUP);
-=======
->>>>>>> c9ef55f311464881962f890cd11d7037fa338e17
   pinMode(pinLed, OUTPUT);
   pinMode(pinBocina, OUTPUT);
   attachInterrupt(digitalPinToInterrupt(pinSensor), alarma, LOW); //funcion que sirve para el minimo consumo de energia, los parametros son el la variable que controla el sensor, el metodo que ejecutara y su estado
@@ -38,22 +32,12 @@ void loop() {
 void alarma() {
 
   digitalWrite(pinLed, HIGH); //se prende el led al detectar movimiento
-<<<<<<< HEAD
   for(int contador = 0; contador <= 255; contador += 5){
-    analogWrite(pinBocina, analogRead(potenciometro)); //activar bocina con un valor bajo de intensidad (2)
+    analogWrite(pinBocina, analogRead(potenciometro)); //activar bocina con un variable dependiendo del potenciometro
     delay(100);
     }
      analogWrite(pinBocina, 0); //apaga bocina
 
-=======
-
-  for(int contador = 0; contador <= 255; contador += 5){
-    analogWrite(pinBocina, 2); //activar bocina con un valor bajo de intensidad (2)
-    delay(100);
-    }
-     analogWrite(pinBocina, 0); //apaga bocina
-
->>>>>>> c9ef55f311464881962f890cd11d7037fa338e17
   digitalWrite(pinLed, LOW);
 
 }
