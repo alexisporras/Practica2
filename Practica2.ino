@@ -1,52 +1,41 @@
-//Sensor de movimiento para alarma con sonido
+/*
+  Programa: Alarma
+  Objetivo: Implemenatr una alarma para el acceso de puerta. Cuando la puerta se abra,
+           la alarma se debe activar
+           Para evitar gastos el consumo de energia debe ser minimo cuando no se abra la puerta,
+           mientras la alarma se active regrese al estado normal y una vez cerrada regrese al
+           estado minimo de consumo de energia
+  - Alexis Antonio Porras Lobato
+*/
+#include "LowPower.h" //Incluir libreria
+const int pinSensor = 2; 
+const int pinLed = 13;
+const int pinBocina = 6;
 
-#define bocina 6 //Declaro bocina
-#define sensor 2 //Declaro sensor
-#define led 13 // Declaro led
-
-int mov = 0; //Declaro variable para almacenar movimiento detectado
 void setup() {
-  Serial.begin(9600);
-  pinMode(bocina, OUTPUT); //Asigno variables con modo de entrada o salida
-  pinMode(sensor, INPUT);  //Asigno variables con modo de entrada o salida
-  pinMode(led, OUTPUT);    //Asigno variables con modo de entrada o salida
+  //configurar pin como entrada con resistencia pull-up interna
+  pinMode(pinSensor, INPUT_PULLUP);
+  pinMode(pinLed, OUTPUT);
+  pinMode(pinBocina, OUTPUT);
+  attachInterrupt(digitalPinToInterrupt(pinSensor), alarma, LOW); //funcion que sirve para el minimo consumo de energia, los parametros son el la variable que controla el sensor, el metodo que ejecutara y su estado
+  digitalWrite(pinLed, LOW);
+  digitalWrite(pinBocina, HIGH);
+  digitalWrite(pinSensor, HIGH);
 }
 
 void loop() {
-  mov = digitalRead(sensor); //Igualacion de valor del pin con el de variable
-  delay(100); //Tiempo de espera
-
-  if (mov == HIGH) { //Condicional de movimiento
-    movimiento();
-  } else {
-    sinMovimiento();
-  }
+  LowPower.powerDown(SLEEP_FOREVER, ADC_OFF, BOD_OFF); //accion que inicializa la interrupcion, se le asigna el modo el cual estara en minimo consumo
 }
+void alarma() {
 
-void alarma() { //Secuencia de sonido
-  tone(bocina, 8.18);
-  delay(100);
-  tone(bocina, 9.72);
-  delay(100);
-  tone(bocina, 14.57);
-  delay(100);
-  noTone(bocina);
-  delay(100);
-}
+  digitalWrite(pinLed, HIGH); //se prende el led al detectar movimiento
 
-void movimiento() { //Secuencia de acciones si se detecta movimiento
-  digitalWrite(led, HIGH); //Encender led
-  Serial.print("Movimiento"); //Comprobar estado en consola
-  Serial.print("\n");
-  alarma(); //Iniciar secuencia de sonido
-  digitalWrite(led, LOW); //Apagar led
-  mov = LOW; //Rgresar estado de movimiento al original
-  delay(500); //Tiempo de espera
-}
+  for(int contador = 0; contador <= 255; contador += 5){
+    analogWrite(pinBocina, 2); //activar bocina con un valor bajo de intensidad (2)
+    delay(100);
+    }
+     analogWrite(pinBocina, 0); //apaga bocina
 
-void sinMovimiento() { //Secuencia de acciones si no detecta movimiento
-  Serial.print("..."); //Comprobar estado en consola
-  Serial.print("\n");
-  digitalWrite(led, LOW); //Mantener led apagado
-  mov = LOW;
+  digitalWrite(pinLed, LOW);
+
 }
