@@ -1,7 +1,10 @@
 # Sistema Notificador de Llegada de Individuos
 
 Tarea: 
-Desarrolle una alarma con arduino para el acceso a una puerta. Cuando la puerta se abra, la alarma debería sonar.
+Desarrolle una alarma con arduino para el acceso a una puerta. Cuando la puerta se abra, la alarma deberÃ­a sonar.
 Requisito indispensable:
-Reducir el consumo de energía al mínimo. Mientras la alarma no esté sonando el arduino deberá consumir la mínima cantidad de energía.
-Cuando la puerta se cierre esta deberá de dejar de sonar y regresar al estado de bajo consumo energético.
+Reducir el consumo de energÃ­a al mÃ­nimo. Mientras la alarma no estÃ© sonando el arduino deberÃ¡ consumir la mÃ­nima cantidad de energÃ­a.
+Cuando la puerta se cierre esta deberÃ¡ de dejar de sonar y regresar al estado de bajo consumo energÃ©tico.
+
+Conclusiones:
+Tuve algunos problemas, ya que de primera instancia lo intente con un sensor de movimiento RIP, despues de darme cuenta que era con un reed switch cambie la practica, tanto fisicamente como en codigo, pero aun asi siento que aprendi y ahora tambien se como conectar un sensor distinto al aprendido en clase.
