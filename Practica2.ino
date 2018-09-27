@@ -10,7 +10,7 @@
 #include "LowPower.h"
 const int pinSensor = 2;
 const int pinLed = 13;
-const int pinBocina = 7;
+const int pinBocina = 6;
 
 void setup() {
   //configurar pin como entrada con resistencia pull-up interna
@@ -31,9 +31,10 @@ void alarma() {
   digitalWrite(pinLed, HIGH);
 
   for(int contador = 0; contador <= 255; contador += 5){
-    analogWrite(pinBocina, 8.18);
+    analogWrite(pinBocina, 2);
     delay(100);
     }
+     analogWrite(pinBocina, 0);
 
   digitalWrite(pinLed, LOW);
 
